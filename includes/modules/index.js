@@ -1,3 +1,4 @@
 import HelloWorld from './HelloWorld/HelloWorld';
+import CustomBlog from './CustomBlog/CustomBlog';
 
-export default [HelloWorld];
+export default [ HelloWorld, CustomBlog ];

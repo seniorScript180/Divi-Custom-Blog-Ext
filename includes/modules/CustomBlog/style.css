@@ -1,0 +1,309 @@
+:root {
+	--abst-bild : 1.75rem;
+	--abst-untertitel: 1.2rem;
+	--abst-titel: 1.2rem;
+	--abst-meta: 1.2rem;
+	--abst-abstract: 1.2rem;
+	
+	--cl-highlight: #cb0b2a;
+	--cl-lists: #2f8295;
+	--cl-gray-md: #d2d3ce;
+	--cl-gray-dark: #999999;
+	--cl-branding-01: #cb0b2a;
+	--cl-branding-02: #006DA5;
+	--cl-black: #000;
+	--cl-subtitle: var(--cl-black);
+	--cl-title: var(--cl-branding-01);
+	--cl-content: var(--cl-black);
+	--cl-more-link: var(--cl-branding-02);
+	--cl-pagination-bg: #E6E7E2;
+	
+    --post-padding: 2rem;
+    --post-background: #f4f4f2;
+    --post-box-shadow: 0px 2px 12px 0px rgba(0, 0, 0, .5);
+}
+
+/*
+ * ==========================================================
+ * Categories Menu
+ * ==========================================================
+ */
+/*adjust Divi Menu module breakpoint*/
+@media (max-width: 980px) {
+    .categories-menu.et_pb_menu .et_pb_menu__menu {
+        display: block;
+    }
+    .categories-menu .et_mobile_nav_menu {
+        display: none!important;
+    }
+}
+@media (max-width: 768px) {
+	.categories-menu .et_pb_menu_inner_container .et-menu-nav ul {
+		display: block!important;
+	}
+	.categories-menu .et_pb_menu_inner_container .et-menu-nav li {
+		margin-top: 0;
+		justify-content: center;
+		border-bottom: 1px solid #000;
+	}
+	.categories-menu .et_pb_menu_inner_container .et_pb_menu__menu,
+	.categories-menu .et_pb_menu_inner_container .et_pb_menu__menu ul {
+		width: 100%;
+		margin: 0;
+	}
+}
+
+/* Fixing conflicts with main menu development */
+.categories-menu .et_pb_menu__menu > nav > ul > li:not(.lang-item)>a:after { display: none!important; }
+.categories-menu .et_pb_menu_inner_container .et-menu-nav li a:after { display: none!important }
+.categories-menu .et_pb_menu_inner_container .et-menu-nav li:hover a:after { display: none!important }
+.categories-menu .et_pb_menu__menu > nav > ul > li >a, 
+.categories-menu .et_pb_menu__menu > nav > ul > li >a {
+	padding: .5rem 0;
+}
+.categories-menu .et_pb_menu__menu > nav > ul > li.current_page_item > a,
+#categories-menu .et_pb_menu__menu > nav > ul > li.current-menu-item > a { position: relative; color: var(--cl-highlight)!important; }
+#categories-menu .current_page_item a:before, 
+#categories-menu .current-menu-item a:before {
+	position: absolute;
+	content: ">";
+	left: -.75rem;
+    line-height: 2rem;
+}
+
+/* Fixing sloppy CSS coding */
+.categories-menu .et_pb_menu_inner_container .et-menu-nav .menu-search-form,
+.categories-menu .et_pb_menu_inner_container .et-menu-nav .lang-item {
+	display: none!important; 
+}
+.categories-menu .et_pb_menu_inner_container .et-menu-nav li.lang-item.lang-item-de.current-lang.lang-item-first {
+	display: none!important;
+}
+.categories-menu .et_pb_menu_inner_container .et-menu-nav li.lang-item.lang-item-en.no-translation {
+	display: none!important;
+}
+
+
+/* Custom Blog Styling for React & Frontend */
+
+/* Layout */
+.cbr_custom_blog .dmn_custom_blog_container,
+.et_pb_posts .dmn_custom_blog_container,
+#related-posts .et_pb_column {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -ms-flex-pack: center;
+    justify-content: center
+}
+@media (max-width:75em) {
+	.cbr_custom_blog .dmn_custom_blog_container,
+    .et_pb_posts .dmn_custom_blog_container {
+        -ms-flex-pack: start;
+        justify-content: flex-start
+    }
+}
+@media (max-width:38em) {
+	.cbr_custom_blog .dmn_custom_blog_container,
+    .et_pb_posts .dmn_custom_blog_container {
+        -ms-flex-pack: center;
+        justify-content: center
+    }
+}
+.cbr_custom_blog .dmn_custom_blog_container article,
+.et_pb_posts .dmn_custom_blog_container article {
+    position: relative;
+    max-width: 31.3%;
+    margin: 0 1% 2rem;
+    padding: 0 var(--post-padding) 2rem;
+}
+#related-posts > .et_pb_column > .et_pb_module {
+    max-width: 31.3%;
+    margin: 0 1% 2rem;
+}
+#related-posts .et_pb_module_inner,
+#related-posts .et_pb_module_inner .et_pb_module,
+#related-posts .et_pb_module_inner .et_pb_ajax_pagination_container {
+	height: 100%;
+}
+#related-posts .et_pb_module article {
+	max-width: none;
+	height: 100%;
+	margin: 0 auto;
+	padding: 0 var(--post-padding) 2rem;
+}
+@media (max-width:75em) {
+	.cbr_custom_blog .dmn_custom_blog_container article,
+    .et_pb_posts .dmn_custom_blog_container article, 
+	#related-posts > .et_pb_column > .et_pb_module { 
+		max-width: 48% 
+	}
+}
+@media (max-width:38em) {
+	.cbr_custom_blog .dmn_custom_blog_container article,
+    .et_pb_posts .dmn_custom_blog_container article, 
+	#related-posts > .et_pb_column > .et_pb_module {
+        max-width: 90%;
+    }
+}
+.cbr_custom_blog .dmn_custom_blog_container article + div,
+.et_pb_posts .dmn_custom_blog_container article + div {
+    width: 100%;
+    margin: 0 1% 2rem
+}
+.cbr_custom_blog .dmn_custom_blog_container .entry-featured-image-url,
+.et_pb_posts .dmn_custom_blog_container .entry-featured-image-url {
+    margin: 0 calc(-1 * var(--post-padding));
+    margin-bottom: var(--abst-bild);
+}
+#related-posts .et_pb_module article .entry-featured-image-url {
+    margin: 0 calc(-1 * var(--post-padding));
+    margin-bottom: var(--abst-bild);
+}
+.cbr_custom_blog .dmn_custom_blog_container .entry-featured-image-url > img,
+.et_pb_posts .dmn_custom_blog_container .entry-featured-image-url > img, 
+#related-posts .et_pb_module article .entry-featured-image-url > img {
+   transition: all 1s 0s ease;
+}
+.cbr_custom_blog .dmn_custom_blog_container .entry-featured-image-url .et_overlay,
+.et_pb_posts .dmn_custom_blog_container .entry-featured-image-url .et_overlay, 
+#related-posts .et_pb_module article .entry-featured-image-url .et_overlay {
+	border: 0;
+}
+.cbr_custom_blog .dmn_custom_blog_container article:hover .entry-featured-image-url > img,
+.et_pb_posts .dmn_custom_blog_container article:hover .entry-featured-image-url > img,
+#related-posts .et_pb_module article:hover .entry-featured-image-url > img {
+	transform: scale(0.96);
+}
+.cbr_custom_blog .dmn_custom_blog_container .meta_subtitle,
+.et_pb_posts .dmn_custom_blog_container .meta_subtitle, 
+#related-posts .et_pb_module article .meta_subtitle {
+	margin-bottom: 0;
+    padding-bottom: var(--abst-untertitel);
+}
+.cbr_custom_blog .dmn_custom_blog_container .entry-title,
+.et_pb_posts .dmn_custom_blog_container .entry-title, 
+#related-posts .et_pb_module article .entry-title {
+	display: block!important;
+	margin-bottom: 0;
+    padding-bottom: var(--abst-titel)
+}
+.cbr_custom_blog .dmn_custom_blog_container .post-meta,
+.et_pb_posts .dmn_custom_blog_container .post-meta, 
+#related-posts .et_pb_module article .post-meta {
+	margin-bottom: 0;
+    padding-bottom: var(--abst-meta);
+}
+.cbr_custom_blog .dmn_custom_blog_container .post-content p,
+.et_pb_posts .dmn_custom_blog_container .post-content p, 
+#related-posts .et_pb_module article .post-content p {
+	margin-bottom: 0;
+	padding-bottom: var(--abst-abstract)!important;
+}
+@media (max-width: 38em) {
+	.cbr_custom_blog .dmn_custom_blog_container .post-content-inner,
+	.et_pb_posts .dmn_custom_blog_container .post-content-inner, 
+	#related-posts .et_pb_module article .post-content-inner {
+		display: none;
+	}
+}
+.cbr_custom_blog .dmn_custom_blog_container .more-link,
+.et_pb_posts .dmn_custom_blog_container .more-link, 
+#related-posts .et_pb_module article .more-link { 
+	display: block; 
+	width: 100%; 
+}
+
+
+/* Typography */
+.cbr_custom_blog .dmn_custom_blog_container .meta_subtitle,
+.et_pb_posts .dmn_custom_blog_container .meta_subtitle, 
+#related-posts .et_pb_module article .meta_subtitle { 
+	font-size: 1.125rem;
+	line-height: 1.2; 
+	letter-spacing: .03em;
+}
+.cbr_custom_blog .dmn_custom_blog_container .entry-title,
+.et_pb_posts .dmn_custom_blog_container .entry-title, 
+#related-posts .et_pb_module article .entry-title { 
+	font-size: 2rem;
+	line-height: 1.2;
+	letter-spacing: .02em;
+	display: block!important;
+} 
+@media (max-width: 38em) {
+	.cbr_custom_blog .dmn_custom_blog_container .entry-title,
+	.et_pb_posts .dmn_custom_blog_container .entry-title, 
+	#related-posts .et_pb_module article .entry-title { 
+		font-size: 1.6rem;
+	}
+}
+.cbr_custom_blog .dmn_custom_blog_container .post-meta,
+.et_pb_posts .dmn_custom_blog_container .post-meta, 
+#related-posts .et_pb_module article .post-meta { 
+	font-size: 1.125rem;
+	line-height: 1.5;
+	letter-spacing: .02em;
+}
+.cbr_custom_blog .dmn_custom_blog_container .post-content-inner,
+.et_pb_posts .dmn_custom_blog_container .post-content-inner, 
+#related-posts .et_pb_module article .post-content-inner { 
+	font-size: 1.125rem;
+	line-height: 1.5;
+	letter-spacing: .02em;
+}
+.cbr_custom_blog .dmn_custom_blog_container .more-link,
+.et_pb_posts .dmn_custom_blog_container .more-link, 
+#related-posts .et_pb_module article .more-link { 
+	font-size: 1.125rem;
+	line-height: 1.5;
+	letter-spacing: .02em;
+}
+
+/* Theme */
+.cbr_custom_blog .dmn_custom_blog_container article,
+.et_pb_posts .dmn_custom_blog_container article, 
+#related-posts .et_pb_module article {
+    background-color: var(--post-background);
+    -webkit-box-shadow: var(--post-box-shadow);
+    box-shadow: var(--post-box-shadow)
+}
+.cbr_custom_blog .dmn_custom_blog_container .meta_subtitle,
+.et_pb_posts .dmn_custom_blog_container .meta_subtitle, 
+#related-posts .et_pb_module article .meta_subtitle {
+    color: var(--cl-subtitle);
+}
+.cbr_custom_blog .dmn_custom_blog_container .post-content-inner p,
+.et_pb_posts .dmn_custom_blog_container .post-content-inner p, 
+#related-posts .et_pb_module article .post-content-inner p { 
+	color: var(--cl-content)!important;
+}
+.cbr_custom_blog .dmn_custom_blog_container .more-link,
+.et_pb_posts .dmn_custom_blog_container .more-link, 
+#related-posts .et_pb_module article .more-link { 
+	color: var(--cl-more-link);
+}
+
+
+.wp-pagenavi {
+    text-align: center;
+    padding: 1rem;
+    background: var(--cl-pagination-bg);
+}
+
+.wp-pagenavi a,
+.wp-pagenavi span {
+    font-size: 1rem !important;
+    font-weight: 700 !important;
+	color: var(--cl-branding-02)!important;
+}
+
+.wp-pagenavi span.current {
+	color: var(--cl-branding-01)!important;
+}
+
+.wp-pagenavi .nextpostslink, 
+.wp-pagenavi .previouspostslink {
+	color: var(--cl-branding-02)!important;
+}
