@@ -272,7 +272,7 @@
 .cbr_custom_blog .dmn_custom_blog_container .meta_subtitle,
 .et_pb_posts .dmn_custom_blog_container .meta_subtitle, 
 #related-posts .et_pb_module article .meta_subtitle {
-    color: var(--cl-subtitle);
+    color: var(--cl-subtitle)!important;
 }
 .cbr_custom_blog .dmn_custom_blog_container .post-content-inner p,
 .et_pb_posts .dmn_custom_blog_container .post-content-inner p, 
@@ -306,4 +306,28 @@
 .wp-pagenavi .nextpostslink, 
 .wp-pagenavi .previouspostslink {
 	color: var(--cl-branding-02)!important;
+}
+
+.search-header {
+	margin: 0 auto;
+	padding: 3rem 0;
+    max-width: 97.9%;
+}
+@media (max-width: 608px) {
+	.search-header {
+		max-width: 90%;
+	}	
+}
+
+.search-header h1 {
+	font-size: 2rem;
+    line-height: 1.2;
+    letter-spacing: .02em;
+	padding-bottom: 0;
+}
+
+.search-header h2 {
+	text-transform: capitalize;
+    color: #000;
+	padding-bottom: 0;
 }

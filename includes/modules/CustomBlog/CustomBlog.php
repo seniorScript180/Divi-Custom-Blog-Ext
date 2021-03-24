@@ -287,31 +287,30 @@ class CBR_custom_blog extends ET_Builder_Module_Type_PostBased {
 
 		global $wpdb;
 
-		$wpdb->get_results( "UPDATE $wpdb->postmeta SET meta_key = 'aaa_Untertitel' WHERE meta_key = 'aab_untertitel'");
-        $wpdb->get_results( "UPDATE $wpdb->postmeta SET meta_key = 'aab_Bildunterschrift' WHERE meta_key = 'Bildunterschrift_01'");
-
+		$wpdb->get_results("UPDATE $wpdb->postmeta SET meta_key = 'aaa_Untertitel' WHERE meta_key = 'aab_untertitel'");
+		$wpdb->get_results("UPDATE $wpdb->postmeta SET meta_key = 'aab_Bildunterschrift' WHERE meta_key = 'Bildunterschrift_01'");
 	}
 
 	static function get_meta_fields() {
 
 		global $wpdb;
 
-        $final_meta_fields['none'] = 'None';
+		$final_meta_fields['none'] = 'None';
 
-        // Get all IDs for all Published Posts
-        $meta_fields_sql_results = $wpdb->get_col(
-            "SELECT DISTINCT $wpdb->postmeta.meta_key 
+		// Get all IDs for all Published Posts
+		$meta_fields_sql_results = $wpdb->get_col(
+			"SELECT DISTINCT $wpdb->postmeta.meta_key 
             FROM $wpdb->postmeta 
             INNER JOIN $wpdb->posts ON $wpdb->posts.ID = $wpdb->postmeta.post_ID
             WHERE ( meta_key REGEXP '^[A-Z][a-z]' )
             AND ( $wpdb->posts.post_type = 'post' OR $wpdb->posts.post_type = 'page' OR $wpdb->posts.post_type = 'project')
             ORDER BY meta_key ASC"
-        );
+		);
 
-        // Fill in values
-        foreach ($meta_fields_sql_results as $value) {
-            $final_meta_fields[$value] = esc_html__($value, '');
-        }
+		// Fill in values
+		foreach ($meta_fields_sql_results as $value) {
+			$final_meta_fields[$value] = esc_html__($value, '');
+		}
 
 		return $final_meta_fields;
 	}
@@ -400,7 +399,6 @@ class CBR_custom_blog extends ET_Builder_Module_Type_PostBased {
 					'__posts',
 				),
 				'show_if'          => array(
-					'use_current_loop' => 'off',
 					'post_type'        => 'post',
 				),
 			),
@@ -430,7 +428,7 @@ class CBR_custom_blog extends ET_Builder_Module_Type_PostBased {
 				'type'             => 'categories',
 				'meta_categories'  => array(
 					'all'     => esc_html__('All Tags', 'myex-my-extension'),
-					'current' => esc_html__('Current Tags', 'myex-my-extension'),
+					// 'current' => esc_html__('Current Tags', 'myex-my-extension'),
 				),
 				'option_category'  => 'basic_option',
 				'renderer_options' => array(
@@ -957,17 +955,19 @@ class CBR_custom_blog extends ET_Builder_Module_Type_PostBased {
 
 		$query_args['cat'] = implode(',', self::filter_include_categories($args['include_categories'], $post_id));
 
-		switch ($args['include_tags']) {
-			case 'all':
-				$query_args['tag__in'] = '';
-				break;
-			case 'current':
-				$query_tags = get_queried_object()->term_id;
-				$query_args['tag_id'] = $query_tags;
-				break;
-			default:
-				$query_tags = array_map('intval', explode(',', (int)$args['include_tags']));
-				$query_args['tag__in'] = $query_tags;
+		if ('on' !== $args['use_current_loop']) {
+			switch ($args['include_tags']) {
+				case 'all':
+					$query_args['tag__in'] = '';
+					break;
+				case 'current':
+					$query_tags = get_queried_object()->term_id;
+					$query_args['tag_id'] = $query_tags;
+					break;
+				default:
+					$query_tags = array_map('intval', explode(',', (int)$args['include_tags']));
+					$query_args['tag__in'] = $query_tags;
+			}
 		}
 
 		$query_args['paged'] = $paged;
@@ -1388,8 +1388,6 @@ class CBR_custom_blog extends ET_Builder_Module_Type_PostBased {
 		$use_overlay        = $this->props['use_overlay'];
 		$header_level       = $this->props['header_level'];
 
-		$untertitel_meta_key = get_post_meta($post->ID, $sub_title_meta, true) ? get_post_meta($post->ID, $sub_title_meta, true) : "";
-
 		$background_layout               = $this->props['background_layout'];
 		$background_layout_hover         = et_pb_hover_options()->get_value('background_layout', $this->props, 'light');
 		$background_layout_hover_enabled = et_pb_hover_options()->is_enabled('background_layout', $this->props);
@@ -1600,7 +1598,41 @@ class CBR_custom_blog extends ET_Builder_Module_Type_PostBased {
 
 		$show_thumbnail = $multi_view->has_value('show_thumbnail', 'on');
 
+
+		$trans_output = '';
+		if (is_search()) {
+
+			$lang = get_language_attributes();
+			$result = '';
+			if ('lang="de-DE"' === $lang) {
+				$result = "Ergebnis";
+				$results = "Ergebnisse";
+			} else {
+				$result = "result";
+				$results = "results";
+			}
+			$count_search_results = $wp_query->found_posts;
+			$trans_output .= '<div class="search-header">';
+			$trans_output .= '<h2>' . get_search_query() . '</h2>';
+			switch ($count_search_results) {
+				case 0:
+					break;
+				case 1:
+					$trans_output .= '<h1>';
+					$trans_output .= $count_search_results . ' '  . $result;
+					$trans_output .= '</h1>';
+					break;
+				default:
+					$trans_output .= '<h1>';
+					$trans_output .= $count_search_results . ' '  . $results;
+					$trans_output .= '</h1>';
+			}
+			$trans_output .= '</div><!-- End of .search-header -->';
+		}
+
 		ob_start();
+
+		echo $trans_output;
 
 		echo '<div class="dmn_custom_blog_container">';
 
@@ -1670,7 +1702,7 @@ class CBR_custom_blog extends ET_Builder_Module_Type_PostBased {
 				$height    = 'on' === $fullwidth ? 675 : 250;
 				$height    = (int) apply_filters('et_pb_blog_image_height', $height);
 				$classtext = 'on' === $fullwidth ? 'et_pb_post_main_image' : '';
-				$untertitel_meta_key = get_post_meta($post->ID, 'aaa_Untertitel', true) ? get_post_meta($post->ID, 'aaa_Untertitel', true) : "";
+				$untertitel_meta_key = get_post_meta($post->ID, $sub_title_meta, true) ? get_post_meta($post->ID, $sub_title_meta, true) : "";
 				$titletext = get_the_title();
 				$alttext   = get_post_meta(get_post_thumbnail_id(), '_wp_attachment_image_alt', true);
 				$thumbnail = get_thumbnail($width, $height, $classtext, $alttext, $titletext, false, 'Blogimage');
@@ -1760,10 +1792,7 @@ class CBR_custom_blog extends ET_Builder_Module_Type_PostBased {
 							 * Add Custom Meta Field Untertitel 
 							 */
 							echo '<h4 class="meta_subtitle">' . $untertitel_meta_key . '</h4>';
-							// printf(
-							//     '<h4 class="meta_subtitle">%1$s </h4>',
-							//     et_core_esc_previously( $untertitel_meta_key )
-							// );
+
 							?>
 							<<?php echo et_core_intentionally_unescaped($processed_header_level, 'fixed_string'); ?> class="entry-title"><a href="<?php esc_url(the_permalink()); ?>"><?php the_title(); ?></a></<?php echo et_core_intentionally_unescaped($processed_header_level, 'fixed_string'); ?>>
 						<?php } ?>
