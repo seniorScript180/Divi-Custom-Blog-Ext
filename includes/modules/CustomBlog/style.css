@@ -331,3 +331,7 @@
     color: #000;
 	padding-bottom: 0;
 }
+
+.search-header + .dmn_custom_blog_container {
+	justify-content: flex-start!important;
+}

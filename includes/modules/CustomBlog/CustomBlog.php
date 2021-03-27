@@ -16,14 +16,10 @@ class CBR_custom_blog extends ET_Builder_Module_Type_PostBased {
 		$this->slug             = 'cbr_custom_blog';
 		$this->vb_support       = 'on';
 		$this->main_css_element = '%%order_class%% .dmn_custom_blog';
+		$this->lang             = get_language_attributes();
+		$this->german_lang      = 'lang="de-DE"' === get_language_attributes() ? TRUE : FALSE;
 
-		global $wpdb;
-
-
-
-		//$wpdb->get_results( "UPDATE $wpdb->postmeta SET meta_key = 'aaa_Untertitel' WHERE meta_key = 'Untertitel'");
-		//$wpdb->get_results( "UPDATE $wpdb->postmeta SET meta_key = 'aab_Bildunterschrift' WHERE meta_key = 'Bildunterschrift_01'");
-
+		
 		$this->settings_modal_toggles = array(
 			'general'  => array(
 				'toggles' => array(
@@ -1602,9 +1598,8 @@ class CBR_custom_blog extends ET_Builder_Module_Type_PostBased {
 		$trans_output = '';
 		if (is_search()) {
 
-			$lang = get_language_attributes();
 			$result = '';
-			if ('lang="de-DE"' === $lang) {
+			if ( $this->german_lang ) {
 				$result = "Ergebnis";
 				$results = "Ergebnisse";
 			} else {
@@ -1619,12 +1614,12 @@ class CBR_custom_blog extends ET_Builder_Module_Type_PostBased {
 					break;
 				case 1:
 					$trans_output .= '<h1>';
-					$trans_output .= $count_search_results . ' '  . $result;
+					$trans_output .= $count_search_results . ' '  . __('result', 'custom-blog-ext');
 					$trans_output .= '</h1>';
 					break;
 				default:
 					$trans_output .= '<h1>';
-					$trans_output .= $count_search_results . ' '  . $results;
+					$trans_output .= $count_search_results . ' '  . __('results', 'custom-blog-ext');
 					$trans_output .= '</h1>';
 			}
 			$trans_output .= '</div><!-- End of .search-header -->';
@@ -1834,10 +1829,19 @@ class CBR_custom_blog extends ET_Builder_Module_Type_PostBased {
 							true
 						);
 
+						/**
+						 * Custom german Read More text
+						 */
+						if( $this->german_lang ) {
+							$read_more_text = "Mehr...";
+						} else {
+							$read_more_text = esc_html__('Read more', 'custom-blog-ext');
+						}
+
 						$more = $multi_view->render_element(
 							array(
 								'tag'            => 'a',
-								'content'        => esc_html__('read more', 'et_builder'),
+								'content'        => $read_more_text,
 								'attrs'          => array(
 									'class' => 'more-link',
 									'href'  => esc_url(get_permalink()),
