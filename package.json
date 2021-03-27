@@ -27,7 +27,7 @@
     ]
   },
   "cde": {
-    "gettext": "cbr-custom-blog-ext",
+    "gettext": "custom-blog-ext",
     "prefix": "cbr"
   }
 }

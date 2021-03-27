@@ -1,4 +1,7 @@
-import HelloWorld from './HelloWorld/HelloWorld';
 import CustomBlog from './CustomBlog/CustomBlog';
+import ReadingEstimate from './ReadingEstimate/ReadingEstimate';
 
-export default [ HelloWorld, CustomBlog ];
+export default [ 
+    CustomBlog,
+    ReadingEstimate
+];

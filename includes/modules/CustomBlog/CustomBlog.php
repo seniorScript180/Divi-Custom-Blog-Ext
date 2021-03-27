@@ -1614,12 +1614,12 @@ class CBR_custom_blog extends ET_Builder_Module_Type_PostBased {
 					break;
 				case 1:
 					$trans_output .= '<h1>';
-					$trans_output .= $count_search_results . ' '  . __('result', 'custom-blog-ext');
+					$trans_output .= $count_search_results . ' '  . $result;
 					$trans_output .= '</h1>';
 					break;
 				default:
 					$trans_output .= '<h1>';
-					$trans_output .= $count_search_results . ' '  . __('results', 'custom-blog-ext');
+					$trans_output .= $count_search_results . ' '  . $results;
 					$trans_output .= '</h1>';
 			}
 			$trans_output .= '</div><!-- End of .search-header -->';
