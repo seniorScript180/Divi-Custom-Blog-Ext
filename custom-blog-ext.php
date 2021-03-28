@@ -3,7 +3,7 @@
 Plugin Name: Custom Blog Ext
 Plugin URI:  
 Description: 
-Version:     2.0.5
+Version:     3.0.1
 Author:      Antonis Ntoumanis
 Author URI:  
 License:     GPL2
@@ -27,16 +27,6 @@ $myUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
 	__FILE__, //Full path to the main plugin file or functions.php.
 	'custom-blog-ext'
 );
-
-function cbr_load_textdomain() {
-
-	//load_plugin_textdomain( 'custom-blog-ext', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
-	
-
-}
-//add_action( 'init', 'cbr_load_textdomain' );
-
-
 
 function cbr_initialize_extension() {
 

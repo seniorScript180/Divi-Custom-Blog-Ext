@@ -9,7 +9,7 @@ class CBR_CustomBlogExt extends DiviExtension {
 	 *
 	 * @var string
 	 */
-	public $gettext_domain = 'cbr-custom-blog-ext';
+	public $gettext_domain = 'custom-blog-ext';
 
 	/**
 	 * The extension's WP Plugin name.

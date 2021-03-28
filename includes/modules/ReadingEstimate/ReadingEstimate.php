@@ -12,11 +12,36 @@ class CBR_ReadEstimate extends ET_Builder_Module {
 	);
 
 	public function init() {
-		$this->name = esc_html__( 'Reading Estimate', 'custom-blog-ext' );
+		$this->name = esc_html__('Reading Estimate', 'custom-blog-ext');
 
 		//Words by minute for calculating est reading time
 		$this->wpm = 250;
 
+		$this->custom_css_fields = array(
+			'estimate_text' => array(
+				'label'    => esc_html__('Time Estimate', 'custom-blog-ext'),
+				'selector' => '%%order_class%% .dmn_estimate_text',
+			)
+		);
+
+	}
+
+	public function get_advanced_fields_config() {
+
+		$fields = [
+			'text'              => false,
+			'text_shadow'       => false,
+			'fonts'             => array(
+				'estimate_text' => array(
+					'label'     => esc_html__('Time Estimate', 'custom-blog-ext'),
+					'css'       => array(
+						'main'  => "{$this->main_css_element} .dmn_estimate_text",
+					),
+				),
+			)
+		];
+
+		return $fields;
 	}
 
 	public function get_fields() {
@@ -46,29 +71,28 @@ class CBR_ReadEstimate extends ET_Builder_Module {
 		];
 
 		return $fields;
-
 	}
 
-	static function post_estimate_reading_time( $args = array() ) {
+	static function post_estimate_reading_time($args = array()) {
 
 		$defaults = array(
 			'german_lang'   => 'lang="de-DE"' === get_language_attributes() ? TRUE : FALSE,
 			'show_est_time' => 'on',
 			'wpm' => 250
 		);
-		$args = wp_parse_args( $args, $defaults );
+		$args = wp_parse_args($args, $defaults);
 
 
 
 		$content = get_the_content();
 		$post_content = et_strip_shortcodes(et_delete_post_first_video(get_the_content()), true);
 		$no_divi = preg_replace('/\[\/?et_pb.*?\]/', '', $post_content);
-		$no_shortcodes = strip_shortcodes( $no_divi );
-		$no_tags = strip_tags( $no_shortcodes );
-		$word_count = str_word_count( $no_tags );
-		$time = $word_count / $args['wpm']; 
+		$no_shortcodes = strip_shortcodes($no_divi);
+		$no_tags = strip_tags($no_shortcodes);
+		$word_count = str_word_count($no_tags);
+		$time = $word_count / $args['wpm'];
 
-		if( $args['german_lang'] ) {
+		if ($args['german_lang']) {
 			$est_time_text = "Lesedauer";
 			$time_text = "Minuten";
 		} else {
@@ -76,31 +100,31 @@ class CBR_ReadEstimate extends ET_Builder_Module {
 			$time_text = esc_html__('minutes', 'custom-blog-ext');
 		}
 
-		$minutes = floor( $time % 60 );
+		$minutes = floor($time % 60);
 		$minutes = sprintf('%02d', $minutes);
-		
+
 		$seconds = $time - (int)$time;
 		$seconds = round($seconds * 60);
 		$seconds = sprintf('%02d', $seconds);
 
 		return sprintf(
 			'<div class="est-reading-time">
-			<span>%1$s: %2$s:%3$s %4$s</span>
-			</div>',
+			<span class="dmn_estimate_text">%1$s: %2$s:%3$s %4$s</span>
+			</div><!-- End of %5$s -->',
 			$est_time_text,
 			$minutes,
 			$seconds,
-			$time_text
-		); ;
-
+			$time_text,
+			'.dmn_estimate_text'
+		);;
 	}
 
-	public function render( $attrs, $content = null, $render_slug ) {
+	public function render($attrs, $content = null, $render_slug) {
 
-		$minutes = CBR_ReadEstimate::post_estimate_reading_time();
+		$time_estimate_markup = CBR_ReadEstimate::post_estimate_reading_time();
 
-		return $minutes;
-
+		return $time_estimate_markup;
+		
 	}
 }
 
