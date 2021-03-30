@@ -1,3 +1,15 @@
-.cbr_hello_world {
 
+/**
+ * .et_pb_module_inner > div > div
+ * is targeting the visual builder
+ */
+.cbr_reading_estimate,
+.cbr_reading_estimate .et_pb_module_inner > div > div {
+    display: flex;
+    justify-content: start;
+    align-items: flex-start;
 }
+.cbr_reading_estimate .dmn_estimate_text {
+    padding-left: 12px;
+}
+
