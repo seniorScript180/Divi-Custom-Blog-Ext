@@ -3,7 +3,7 @@
 Plugin Name: Custom Blog Ext
 Plugin URI:  
 Description: 
-Version:     3.0.5
+Version:     3.0.6
 Author:      Antonis Ntoumanis
 Author URI:  
 License:     GPL2
