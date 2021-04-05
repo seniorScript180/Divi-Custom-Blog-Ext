@@ -5,7 +5,7 @@
     --arrow-next: '5';
     --arrow-prev-rtl: var( var(--arrow-next));
     --arrow-next-rtl: var( var(--arrow-prev));
-    --dot-size: 2.5rem;
+    --dot-size: 1rem;
     --color-hightlight: #000;
     --custom-ff: "Darwin Light", Helvetica, Arial, Lucida, sans-serif;
 }

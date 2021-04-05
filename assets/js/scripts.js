@@ -1,14 +1,16 @@
 jQuery(document).ready(function() {
 
-    console.log('Off we go');
+    var $slider_wrapper = jQuery('.swiper-wrapper');
 
-    jQuery('.swiper-wrapper').slick({
-        autoplay: false,
-        autoplaySpeed: 4500,
-        arrows: true,
-        dots: true,
+    if ($slider_wrapper.length) {
+        $slider_wrapper.slick({
+            autoplay: true,
+            autoplaySpeed: 4500,
+            arrows: true,
+            dots: true,
 
-    });
+        });
+    }
 
 
 });
