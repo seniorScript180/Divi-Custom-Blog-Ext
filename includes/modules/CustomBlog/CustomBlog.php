@@ -1,6 +1,8 @@
 <?php
 
-get_template_part('/includes/builder/module/helpers/Overlay.php');
+$parent_theme_directory = get_template_directory_uri();
+
+get_template_part( $parent_theme_directory . '/includes/builder/module/helpers/Overlay.php');
 
 class CBR_custom_blog extends ET_Builder_Module_Type_PostBased {
 	/**
@@ -1269,6 +1271,7 @@ class CBR_custom_blog extends ET_Builder_Module_Type_PostBased {
 
 		if (!$posts = ob_get_clean()) {
 			$posts = self::get_no_results_template(et_core_esc_previously($processed_header_level));
+
 		}
 
 		self::$rendering = false;
@@ -1893,7 +1896,9 @@ class CBR_custom_blog extends ET_Builder_Module_Type_PostBased {
 				$container_is_closed = true;
 			}
 		} elseif ($show_no_results_template) {
+
 			echo self::get_no_results_template(et_core_intentionally_unescaped($processed_header_level, 'fixed_string'));
+			
 		}
 
 		unset($wp_query->et_pb_blog_query);
