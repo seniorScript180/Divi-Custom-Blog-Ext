@@ -1,0 +1,9 @@
+/**
+ * .et_pb_module_inner > div > div
+ * is targeting the visual builder
+ */
+
+.cbr_lang_shorcodes,
+.cbr_lang_shorcodes .et_pb_module_inner>div>div {}
+
+.cbr_lang_shorcodes .dmn_estimate_text {}

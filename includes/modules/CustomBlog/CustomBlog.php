@@ -953,6 +953,8 @@ class CBR_custom_blog extends ET_Builder_Module_Type_PostBased {
 
 		$query_args['cat'] = implode(',', self::filter_include_categories($args['include_categories'], $post_id));
 
+
+
 		if ('on' !== $args['use_current_loop']) {
 			switch ($args['include_tags']) {
 				case 'all':
@@ -963,10 +965,11 @@ class CBR_custom_blog extends ET_Builder_Module_Type_PostBased {
 					$query_args['tag_id'] = $query_tags;
 					break;
 				default:
-					$query_tags = array_map('intval', explode(',', (int)$args['include_tags']));
-					$query_args['tag__in'] = $query_tags;
+					// $query_tags = array_map('intval', explode(',', (int)$args['include_tags']));
+					$query_args['tag__in'] = explode(',', $args['include_tags']);
 			}
 		}
+
 
 		$query_args['paged'] = $paged;
 
@@ -1061,7 +1064,8 @@ class CBR_custom_blog extends ET_Builder_Module_Type_PostBased {
 ?>
 
 				<article id="" <?php post_class('et_pb_post clearfix' . $no_thumb_class . $overlay_class); ?>>
-					<?php
+					<?php					
+
 					et_divi_post_format_content();
 
 					if (!in_array($post_format, array('link', 'audio', 'quote'))) {
@@ -1124,6 +1128,7 @@ class CBR_custom_blog extends ET_Builder_Module_Type_PostBased {
 						<?php } ?>
 
 						<?php
+
 						if ('on' === $args['show_author'] || 'on' === $args['show_date'] || 'on' === $args['show_categories'] || 'on' === $args['show_comments']) {
 							$author = 'on' === $args['show_author']
 								? et_get_safe_localization(sprintf(__('by %s', 'et_builder'), '<span class="author vcard">' . et_pb_get_the_author_posts_link() . '</span>'))
@@ -1503,6 +1508,8 @@ class CBR_custom_blog extends ET_Builder_Module_Type_PostBased {
 
 		$args['cat'] = implode(',', self::filter_include_categories($include_categories));
 
+
+		// Tags Selection
 		switch ($include_tags) {
 			case 'all':
 				$args['tag__in'] = '';
@@ -1512,9 +1519,11 @@ class CBR_custom_blog extends ET_Builder_Module_Type_PostBased {
 				$args['tag_id'] = $query_tags;
 				break;
 			default:
-				$query_tags = array_map('intval', explode(',', (int)$include_tags));
-				$args['tag__in'] = $query_tags;
+				// $query_tags = array_map('intval', explode(',', (int)$include_tags));
+				// $query_tags = implode(",", $include_tags);
+				$args['tag__in'] = explode(',', $include_tags);
 		}
+
 
 		$args['paged'] = $et_paged;
 
