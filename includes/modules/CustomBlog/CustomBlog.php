@@ -1275,7 +1275,9 @@ class CBR_custom_blog extends ET_Builder_Module_Type_PostBased {
 		echo '</div><!-- End of .dmn_custom_blog_container -->';
 
 		if (!$posts = ob_get_clean()) {
-			$posts = self::get_no_results_template(et_core_esc_previously($processed_header_level));
+			// $posts = self::get_no_results_template(et_core_esc_previously($processed_header_level));
+			include  '../../no-results.php';
+
 
 		}
 
@@ -1906,7 +1908,22 @@ class CBR_custom_blog extends ET_Builder_Module_Type_PostBased {
 			}
 		} elseif ($show_no_results_template) {
 
-			echo self::get_no_results_template(et_core_intentionally_unescaped($processed_header_level, 'fixed_string'));
+			/**
+			 * Search NO result
+			 */
+			echo '<div class="search-no-result">';
+			if( $this->german_lang ) {
+				// echo '<h1>Es wurden leider keine Suchergebnisse gefunden.</h1>';
+				// echo '<h2>Bitte versuchen Sie es nochmal.</h2>';
+				echo do_shortcode( '[DiviShortcode id="30945"]' );
+			} else {
+				// echo '<h1>Sorry, no search results were found.</h1>';
+				// echo '<h2>Please try again.</h2>';
+				echo do_shortcode( '[DiviShortcode id="30958"]' );
+			}
+			echo '</div>';
+
+			// echo self::get_no_results_template(et_core_intentionally_unescaped($processed_header_level, 'fixed_string'));
 			
 		}
 
