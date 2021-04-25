@@ -313,9 +313,42 @@ class CBR_custom_blog extends ET_Builder_Module_Type_PostBased {
 		return $final_meta_fields;
 	}
 
+	static function get_et_pb_layout_ids() {
+
+		global $wpdb;
+
+		$et_pb_layout_ids['none'] = 'None';
+
+		// Get all IDs for all Published Posts
+		$et_pb_layout_ids_sql_results = $wpdb->get_results(
+			"SELECT $wpdb->posts.id
+			FROM $wpdb->posts
+			where $wpdb->posts.post_type = 'et_pb_layout'
+			ORDER BY id ASC"
+		);
+
+		// var_dump($et_pb_layout_ids_sql_results);
+
+		// Fill in values
+		foreach ($et_pb_layout_ids_sql_results as $key => $value) {
+			$tmp_key = (string)$value->id;
+			$tmp_val = (int)$value->id;
+			$et_pb_layout_ids[$key] = $tmp_val;
+			//array_push($et_pb_layout_ids, $value->id);
+			// $et_pb_layout_ids[$key] = esc_html__($value.id, '');
+			// $et_pb_layout_ids[$value] = esc_html__($value, '');
+		}
+
+		// var_dump($et_pb_layout_ids);
+
+		return $et_pb_layout_ids;
+	}
+
 	function get_fields() {
 
 		$posts_meta_fields = CBR_custom_blog::get_meta_fields();
+
+		// $et_pb_layouts_id = CBR_custom_blog::get_et_pb_layout_ids();
 
 		$fields = array(
 			'fullwidth'                     => array(
@@ -400,6 +433,22 @@ class CBR_custom_blog extends ET_Builder_Module_Type_PostBased {
 					'post_type'        => 'post',
 				),
 			),
+			// 'german_no_results_id' => array(
+			// 	'label'            => esc_html__('No search results, german version', 'myex-my-extension'),
+			// 	'type'             => 'select',
+			// 	'option_category'  => 'basic_option',
+			// 	'options'          => $et_pb_layouts_id,
+			// 	'toggle_slug'      => 'main_content',
+			// 	'description'      => esc_html__('Choose no results search layout', 'myex-my-extension'),
+			// ),
+			// 'english_no_results_id'=> array(
+			// 	'label'            => esc_html__('No search results, english version', 'myex-my-extension'),
+			// 	'type'             => 'select',
+			// 	'option_category'  => 'basic_option',
+			// 	'options'          => $et_pb_layouts_id,
+			// 	'toggle_slug'      => 'main_content',
+			// 	'description'      => esc_html__('Choose no results search layout', 'myex-my-extension'),
+			// ),
 			'include_categories'            => array(
 				'label'            => esc_html__('Included Categories', 'et_builder'),
 				'type'             => 'categories',
@@ -1378,6 +1427,8 @@ class CBR_custom_blog extends ET_Builder_Module_Type_PostBased {
 		$sub_title_meta     = $this->props['subtitle_meta_field'];
 		$include_categories = $this->props['include_categories'];
 		$include_tags       = $this->props['include_tags'];
+		// $german_no_results  = $this->props['german_no_results_id'];
+		// $english_no_results = $this->props['english_no_results_id'];
 		$meta_date          = $this->props['meta_date'];
 		$show_thumbnail     = $this->props['show_thumbnail'];
 		$show_content       = $this->props['show_content'];
@@ -1908,23 +1959,21 @@ class CBR_custom_blog extends ET_Builder_Module_Type_PostBased {
 			}
 		} elseif ($show_no_results_template) {
 
+			// $et_pb_layouts_id = CBR_custom_blog::get_et_pb_layout_ids();
+
+			// var_dump($german_no_results);
+			// var_dump($english_no_results);
+
+
 			/**
 			 * Search NO result
 			 */
-			echo '<div class="search-no-result">';
-			if( $this->german_lang ) {
-				// echo '<h1>Es wurden leider keine Suchergebnisse gefunden.</h1>';
-				// echo '<h2>Bitte versuchen Sie es nochmal.</h2>';
+			if ( $this->german_lang ) {
 				echo do_shortcode( '[DiviShortcode id="30945"]' );
 			} else {
-				// echo '<h1>Sorry, no search results were found.</h1>';
-				// echo '<h2>Please try again.</h2>';
 				echo do_shortcode( '[DiviShortcode id="30958"]' );
-			}
-			echo '</div>';
+			} 
 
-			// echo self::get_no_results_template(et_core_intentionally_unescaped($processed_header_level, 'fixed_string'));
-			
 		}
 
 		unset($wp_query->et_pb_blog_query);
