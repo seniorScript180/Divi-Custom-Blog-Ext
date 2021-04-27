@@ -46,6 +46,7 @@ final class CBR_CAdditionalFunctions {
         // Load slick styles
         wp_enqueue_style('slick-css', CBR_PLUGIN_DIR . '/assets/css/slick.css', array(), '');
         wp_enqueue_style('slick-theme-css', CBR_PLUGIN_DIR . '/assets/css/slick-theme.css', array(), '');
+        wp_enqueue_style('magnificent-popup', CBR_PLUGIN_DIR . '/assets/css/magnific-popup.css', array(), '');
 
     }
 
@@ -56,7 +57,9 @@ final class CBR_CAdditionalFunctions {
 
         // Load swiper slider js
         wp_enqueue_script('slick-js', CBR_PLUGIN_DIR . '/assets/js/slick.min.js', array('jquery'), '', false);
+        wp_enqueue_script('magnificent-popup', CBR_PLUGIN_DIR . '/assets/js/jquery.magnific-popup.min.js', array('jquery'), '', false);
         wp_enqueue_script('scripts', CBR_PLUGIN_DIR . '/assets/js/scripts.js', array('slick-js'), CBR_THEME_VERSION, false);
+
     }
 
 
