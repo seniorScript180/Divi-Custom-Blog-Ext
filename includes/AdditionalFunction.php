@@ -63,12 +63,15 @@ final class CBR_CAdditionalFunctions {
     /**
      * Shortcode creating the Estimate reading time
      */
-    static public function post_estimate_reading_time() {
+    static public function post_estimate_reading_time( $atts ) {
+
+        extract(shortcode_atts(array(
+            'wpm' => 212
+        ), $atts));
 
         $defaults = array(
             'german_lang'   => 'lang="de-DE"' === get_language_attributes() ? TRUE : FALSE,
             'show_est_time' => 'on',
-            'wpm' => 212
         );
 
         $moduleClassName     = 'cbr_reading_estimate';
@@ -95,7 +98,7 @@ final class CBR_CAdditionalFunctions {
          * The main calculation. Words / Words Per Minute
          * Result is in minutes in decimal format
          */
-        $time = $word_count / $args['wpm'];
+        $time = $word_count / $wpm;
 
         /**
          * Hardcoded Translation
@@ -124,14 +127,12 @@ final class CBR_CAdditionalFunctions {
         return sprintf(
             '<span class="%1$s">
                 <span class="dmn_estimate_text"> %2$s %3$s</span>
-                <span>DEBUG: %4$s</span>
             </span>',
             $moduleClassName,
             $minutes,
             $time_text,
             $time
         );
-
     }
 
     /**
@@ -145,7 +146,6 @@ final class CBR_CAdditionalFunctions {
             '<span class="current-year check-class">%1$s</span>',
             $year
         );
-
     }
 }
 
