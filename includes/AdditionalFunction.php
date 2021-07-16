@@ -30,7 +30,6 @@ final class CBR_CAdditionalFunctions {
         define('CBR_CHILD_THEME_URL', get_stylesheet_directory_uri());
         define('CBR_PLUGIN_FILE', plugin_dir_url(__FILE__));
         define('CBR_PLUGIN_DIR', plugin_dir_url(__DIR__));
-
     }
 
 
@@ -47,7 +46,6 @@ final class CBR_CAdditionalFunctions {
         wp_enqueue_style('slick-css', CBR_PLUGIN_DIR . '/assets/css/slick.css', array(), '');
         wp_enqueue_style('slick-theme-css', CBR_PLUGIN_DIR . '/assets/css/slick-theme.css', array(), '');
         wp_enqueue_style('magnificent-popup', CBR_PLUGIN_DIR . '/assets/css/magnific-popup.css', array(), '');
-
     }
 
     /**
@@ -59,7 +57,6 @@ final class CBR_CAdditionalFunctions {
         wp_enqueue_script('slick-js', CBR_PLUGIN_DIR . '/assets/js/slick.min.js', array('jquery'), '', false);
         wp_enqueue_script('magnificent-popup', CBR_PLUGIN_DIR . '/assets/js/jquery.magnific-popup.min.js', array('jquery'), '', false);
         wp_enqueue_script('scripts', CBR_PLUGIN_DIR . '/assets/js/scripts.js', array('slick-js'), CBR_THEME_VERSION, false);
-
     }
 
 
@@ -71,7 +68,7 @@ final class CBR_CAdditionalFunctions {
         $defaults = array(
             'german_lang'   => 'lang="de-DE"' === get_language_attributes() ? TRUE : FALSE,
             'show_est_time' => 'on',
-            'wpm' => 250
+            'wpm' => 212
         );
 
         $moduleClassName     = 'cbr_reading_estimate';
@@ -82,13 +79,29 @@ final class CBR_CAdditionalFunctions {
 
         $args = wp_parse_args($args, $defaults);
 
+        /**
+         * Divi carries a lot of additional code as content on each post and page
+         * We need only the human readable content to calculate the estimate time
+         * So we get rid of all those shortcodes in several levels
+         * $word_count is the final variable result
+         */
         $post_content = et_strip_shortcodes(et_delete_post_first_video(get_the_content()), true);
         $no_divi = preg_replace('/\[\/?et_pb.*?\]/', '', $post_content);
         $no_shortcodes = strip_shortcodes($no_divi);
         $no_tags = strip_tags($no_shortcodes);
         $word_count = str_word_count($no_tags);
+
+        /**
+         * The main calculation. Words / Words Per Minute
+         * Result is in minutes in decimal format
+         */
         $time = $word_count / $args['wpm'];
 
+        /**
+         * Hardcoded Translation
+         * German & English
+         * Because Polylang is not playing nice
+         */
         if ($args['german_lang']) {
             $est_time_text = "Lesedauer";
             $time_text = "Min.";
@@ -97,33 +110,42 @@ final class CBR_CAdditionalFunctions {
             $time_text = esc_html__('min.', 'custom-blog-ext');
         }
 
+        /**
+         * Constructing the time for print
+         * Because minutes is in decimal format
+         * 1. Modulo 60
+         * 2. Remaining seconds
+         * 3. Modulo 60 
+         */
         $minutes = floor($time % 60);
-        //$minutes = sprintf('%02d', $minutes);
-
         $seconds = $time - (int)$time;
         $seconds = round($seconds * 60);
-        //$seconds = sprintf('%02d', $seconds);
 
         return sprintf(
             '<span class="%1$s">
                 <span class="dmn_estimate_text"> %2$s %3$s</span>
+                <span>DEBUG: %4$s</span>
             </span>',
             $moduleClassName,
             $minutes,
             $time_text,
+            $time
         );
+
     }
 
     /**
-     * Print current Year
+     * Shortcode for printing current Year
      */
     static public function year_shortcode() {
 
         $year = date('Y');
+
         return sprintf(
             '<span class="current-year check-class">%1$s</span>',
             $year
         );
+
     }
 }
 
