@@ -119,8 +119,6 @@ final class CBR_CAdditionalFunctions {
      */
     static public function year_shortcode() {
 
-        self::define_variables();
-
         $year = date('Y');
         return sprintf(
             '<span class="current-year check-class">%1$s</span>',
