@@ -139,7 +139,7 @@ class CBR_ReadEstimate extends ET_Builder_Module {
 		// );
 
 		$fields['icon_color']          = array(
-			'default'         => $et_accent_color,
+			//'default'         => $et_accent_color,
 			'label'           => esc_html__('Icon Color', 'et_builder'),
 			'type'            => 'color-alpha',
 			'description'     => esc_html__('Here you can define a custom color for your icon.', 'et_builder'),
