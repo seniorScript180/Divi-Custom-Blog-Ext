@@ -1,3 +1,5 @@
+A Divi Extension of the Blog Module. Developed in the malte-iv local installation
+
 This project was bootstrapped with [Create Divi Extension](https://github.com/elegantthemes/create-divi-extension).
 
 Below you will find some information on how to perform common tasks. You can find the most recent version of this guide [here](https://github.com/elegantthemes/create-divi-extension/blob/master/packages/divi-scripts/template/README.md).
